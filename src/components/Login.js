@@ -1,9 +1,6 @@
 import React from "react"
-
 import { GoogleOutlined } from '@ant-design/icons'
-
 import firebase from "firebase/app"
-
 import { auth } from "../firebase"
 
 export default function Login() {
@@ -11,8 +8,10 @@ export default function Login() {
     <div id='login-page'>
       <div id='login-card'>
         <h2>Welcome to Unichat!</h2>
-
+        
+       
         <div
+         //Div to signin into firebase by using GoogleAuthProvider 
           className='login-button google'
           onClick={() => auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider())}
         >

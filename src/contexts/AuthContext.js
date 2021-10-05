@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const history = useHistory();
 
+    //function to redirect from login to chats when user login
     useEffect(() => {
         auth.onAuthStateChanged((user) => {
             setUser(user);

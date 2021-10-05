@@ -9,15 +9,16 @@ const Chats = () => {
   const history = useHistory();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-
   console.log(user);
 
+  //function to handle logout 
   const handleLogout = async () => {
     await auth.signOut();
-
+    //redirect page to login 
     history.push('/');
   };
 
+  //function to upload and get picture form computer
   const getFile = async (url) => {
     const response = await fetch(url);
     const data = await response.blob();
@@ -25,14 +26,16 @@ const Chats = () => {
   };
 
   useEffect(() => {
+    //redirect user to login page if not login
     if (!user) {
       history.push('/');
       return;
     }
     axios
+      //connect the system into chatengine API
       .get('https://api.chatengine.io/users/me', {
         headers: {
-          'project-id': 'your project-id',
+          'project-id': 'Your-Project-ID',
           'user-name': user.email,
           'user-secret': user.uid,
         },
@@ -41,6 +44,7 @@ const Chats = () => {
         setLoading(false);
       })
       .catch((err) => {
+        //fetch all new data or new user registered
         let formData = new FormData();
         formData.append('email', user.email);
         formData.append('username', user.email);
@@ -51,7 +55,7 @@ const Chats = () => {
           axios
             .post('https://api.chatengine.io/users/', formData, {
               headers: {
-                'private-key': 'your-private-key',
+                'private-key': 'Your-Project-Secret-Key',
               },
             })
             .then(() => setLoading(false))
@@ -59,18 +63,23 @@ const Chats = () => {
         });
       });
   }, [user, history]);
-  if (!user || loading) return 'Loading... ';
+
+  //once user login their google account
+  if (!user || loading) return 'Please wait... ';
+
+
+
   return (
     <div className="chat-page">
       <div className="nav-bar">
-        <div className="logo-tab">Unichat</div>
+        <div className="logo-tab">Chat Messenger</div>
         <div className="logout-tab" onClick={handleLogout}>
           Logout
         </div>
       </div>
       <ChatEngine
         height="calc(100vh - 66px)"
-        projectID="your-project-id"
+        projectID="Your-Project-ID"
         userName={user.email}
         userSecret={user.uid}
       />
